@@ -7,24 +7,12 @@ on:
         description: The version of python to use
         type: string
         required: true
-      exclude:
-        description: Paths to exclude when linting, defaults to excluding './src/migrations/versions'
-        type: string
-        default: ./src/migrations/versions
-        required: false
 
 jobs:
   py_lint:
     name: Lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      
-      - name: Install Python and dependencies
-        uses: MartinSchmidt/ci-workflows/.github/actions/python_pipenv_install_dependencies
-        with: 
-          python_version: ${{ inputs.python_version }}
-
       - name: Analyzing the code with flake8
         shell: bash
-        run: pipenv run lint-flake8 --exclude ${{ inputs.exclude }}
+        run: echo "hello ${{ inputs.python_version }}"
