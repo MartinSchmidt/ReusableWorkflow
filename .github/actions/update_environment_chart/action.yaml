@@ -35,10 +35,10 @@ runs:
         workflow: Update helm chart version
         token: ${{ inputs.env_token }}
         repo: ${{ inputs.env_repository}}
-        ref: ${{ inputs.env_branch }}
         inputs: |
           { 
             "name": "${{ inputs.release_name }}", 
+            "targetBranch": "${{ inputs.env_branch }}",
             "repoURL": "${{ inputs.release_repository_url }}", 
             "targetRevision": "${{ inputs.release_target_revision }}", 
             "path": "${{ inputs.release_chart_path }}"
