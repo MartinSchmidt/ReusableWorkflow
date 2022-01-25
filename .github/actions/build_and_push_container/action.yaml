@@ -18,10 +18,10 @@ inputs:
 outputs:
   image_name:
     description: "The full image name ex: ghcr.io/my_container"
-    value: ${{ jobs.build.outputs.image_name }}
+    value: ${{ steps.image_name.outputs.lowercase }}
   image_tag:
     description: "The image tag"
-    value: ${{ jobs.build.outputs.image_tag }}
+    value: ${{ steps.tag.outputs.tag_name }}
 
 
 runs:
