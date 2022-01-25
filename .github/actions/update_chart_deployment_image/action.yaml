@@ -18,14 +18,14 @@ runs:
     - uses: actions/checkout@v2
 
     - name: Update image name 
-      uses: ./.github/actions/yaml-set
+      uses: MartinSchmidt/ReusableWorkflow/.github/actions/yaml-set@main
       with:
         yaml_file: chart/values.yaml
         yaml_path: eo-base-helm-chart.deployments.${{ inputs.name }}.image.repository
         value: ${{ inputs.image }}
 
     - name: Update tag
-      uses: ./.github/actions/yaml-set
+      uses: MartinSchmidt/ReusableWorkflow/.github/actions/yaml-set@main
       with:
         yaml_file: chart/values.yaml
         yaml_path: eo-base-helm-chart.deployments.${{ inputs.name }}.image.tag
