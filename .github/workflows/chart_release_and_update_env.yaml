@@ -46,7 +46,7 @@ jobs:
           yaml_path: name
 
       - name: Update environment chart
-        uses: MartinSchmidt/ReusableWorkflow/.github/actions/update-environment-chart@main
+        uses: MartinSchmidt/ReusableWorkflow/.github/actions/update_environment_chart@main
         with:
           env_token: ${{ secrets.UPDATE_ENV_TOKEN }}
           env_repository: ${{ inputs.environment_repository }}
@@ -84,7 +84,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Update environment chart
-        uses: MartinSchmidt/ReusableWorkflow/.github/actions/update-environment-chart@main
+        uses: MartinSchmidt/ReusableWorkflow/.github/actions/update_environment_chart@main
         with:
           env_token: ${{ secrets.UPDATE_ENV_TOKEN }}
           env_repository: ${{ inputs.environment_repository }}
