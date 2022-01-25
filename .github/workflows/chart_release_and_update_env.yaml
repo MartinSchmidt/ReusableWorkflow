@@ -50,6 +50,7 @@ jobs:
         with:
           env_token: ${{ secrets.UPDATE_ENV_TOKEN }}
           env_repository: ${{ inputs.environment_repository }}
+          env_branch: ${{ github.event.pull_request.head.ref }}
           release_name: ${{ steps.get-chart-name.outputs.result }}
           release_repository_url: ${{ github.repositoryUrl }}
           release_target_revision: ${{ github.event.pull_request.head.ref }}
