@@ -1,0 +1,36 @@
+name: Run tests and linting
+
+on:
+  workflow_call:
+    inputs:
+      python_version:
+        description: The version of python to use
+        type: string
+        required: true
+      ignore_lint_error:
+        description: Whether or not to ignore linting errors.
+        type: boolean
+        default: false
+        required: false
+
+jobs:
+  py_lint:
+    uses: MartinSchmidt/ReusableWorkflow/.github/workflows/python_pipenv_lint.yaml@main
+    with:
+      python_version: ${{ inputs.python_version }}
+      ignore_lint_error: ${{ inputs.ignore_lint_error }}
+      exclude: ./src/migrations/versions
+
+  py_unit_test:
+    name: Run python unit tests
+    uses: MartinSchmidt/ReusableWorkflow/.github/workflows/python_pipenv_test.yaml@main
+    with:
+      python_version: ${{ inputs.python_version }}
+      test_tag: unittest
+
+  py_integration_test:
+    name: Run python integration tests
+    uses: MartinSchmidt/ReusableWorkflow/.github/workflows/python_pipenv_test.yaml@main
+    with:
+      python_version: ${{ inputs.python_version }}
+      test_tag: integrationtest

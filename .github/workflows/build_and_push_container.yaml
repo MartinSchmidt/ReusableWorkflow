@@ -1,0 +1,73 @@
+name: Build docker containers
+
+on:
+  workflow_call:
+    inputs:
+      dockerfile:
+        description: The path of the Dockerfile to build
+        type: string
+        required: true
+      image_name:
+        description: The name of the resulting container, set to parameter after ghcr.io; ghcr.io/{name}
+        type: string
+        required: true
+      docker_context:
+        description: The path for the docker build context, defaults to '.'
+        type: string
+        required: false
+        default: .
+
+    outputs:
+      image_name:
+        description: "The full image name ex: ghcr.io/my_container"
+        value: ${{ jobs.build.outputs.image_name }}
+      image_tag:
+        description: "The image tag"
+        value: ${{ jobs.build.outputs.image_tag }}
+
+jobs:
+  build_and_push:
+    name: Build and push container
+    runs-on: ubuntu-latest
+    outputs:
+      image_name: ${{ steps.image_name.outputs.lowercase }}
+      image_tag: ${{ steps.tag.outputs.tag_name }}
+      
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Log in to the Container registry
+        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+
+      - name: Container image name
+        id: image_name
+        uses: ASzc/change-string-case-action@v2
+        with:
+          string: ghcr.io/${{ inputs.name }}
+
+      - name: Get tag
+        id: tag
+        shell: bash
+        run: |
+          if ${{github.event_name == 'push' && github.ref_name == 'main'}}
+          then    
+            echo "::set-output name=tag_name::$(grep 'version: ' chart/Chart.yaml | cut -f 2 -d ' ')"
+          elif ${{github.event_name == 'pull_request'}}
+          then
+            echo "::set-output name=tag_name::pr-${{ github.event.pull_request.number }}-${{ github.run_number }}"
+          else
+            echo Not supported on push to branches other than main
+            exit 1
+          fi
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        with:
+          context: ${{ inputs.docker_context }}
+          file: ${{ inputs.dockerfile }}
+          push: true
+          tags: ${{ steps.image_name.outputs.lowercase }}:${{ steps.tag.outputs.tag_name }}
