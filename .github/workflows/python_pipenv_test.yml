@@ -13,8 +13,8 @@ on:
         required: true
 
 jobs:
-  lint:
-    name: Test python code with tag ${{ inputs.test_tag }}
+  run_tests:
+    name: Test python code
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
