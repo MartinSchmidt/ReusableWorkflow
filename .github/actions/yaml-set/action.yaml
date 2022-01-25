@@ -1,4 +1,5 @@
 name: Yaml set
+description: Sets the value in a yaml file.
 
 inputs:
   yaml_file:

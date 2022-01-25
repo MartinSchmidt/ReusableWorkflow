@@ -1,4 +1,5 @@
 name: Yaml get
+description: Gets the value from the yaml_path in a yaml file.
 
 inputs:
   yaml_file:

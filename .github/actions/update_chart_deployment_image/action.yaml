@@ -1,4 +1,5 @@
 name: Update version tag
+description: Updates the tag for a deployment in the chart in the eo-base-helm-chart.
 
 inputs:
   image:
