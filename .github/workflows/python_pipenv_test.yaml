@@ -1,0 +1,30 @@
+name: Run pytest using pipenv
+
+on:
+  workflow_call:
+    inputs:
+      python_version:
+        description: The version of python to use
+        type: string
+        required: true
+      test_tag:
+        description: The pytest tag to use, examples could be 'integrationtest' or 'unittest'
+        type: string
+        required: true
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Install Python and dependencies
+        uses: MartinSchmidt/ci-workflows/.github/actions/python_pipenv_install_dependencies
+        with: 
+          python_version: ${{ inputs.python_version }}
+
+      - name: Running tests
+        shell: bash
+        run: |
+          pipenv run pytest tests -m ${{ inputs.test_tag }} --tb=native
