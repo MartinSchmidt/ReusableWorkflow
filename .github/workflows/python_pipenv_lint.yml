@@ -14,7 +14,7 @@ on:
         required: false
 
 jobs:
-  lint:
+  py_lint:
     name: Lint
     runs-on: ubuntu-latest
     steps:
