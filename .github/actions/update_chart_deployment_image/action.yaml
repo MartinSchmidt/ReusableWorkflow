@@ -8,7 +8,7 @@ inputs:
   tag:
     description: The container image tag
     required: true
-  name:
+  deployment_name:
     description: Deployment name
     required: true
 
@@ -21,19 +21,19 @@ runs:
       uses: MartinSchmidt/ReusableWorkflow/.github/actions/yaml-set@main
       with:
         yaml_file: chart/values.yaml
-        yaml_path: eo-base-helm-chart.deployments.${{ inputs.name }}.image.repository
+        yaml_path: eo-base-helm-chart.deployments.${{ inputs.deployment_name }}.image.repository
         value: ${{ inputs.image }}
 
     - name: Update tag
       uses: MartinSchmidt/ReusableWorkflow/.github/actions/yaml-set@main
       with:
         yaml_file: chart/values.yaml
-        yaml_path: eo-base-helm-chart.deployments.${{ inputs.name }}.image.tag
+        yaml_path: eo-base-helm-chart.deployments.${{ inputs.deployment_name }}.image.tag
         value: ${{ inputs.tag }}
 
     - name: Commit changes
       uses: EndBug/add-and-commit@v7 
       with:
         add: 'chart/values.yaml'
-        message: 'Updated version tag for ${{ inputs.name }} in the helm chart'
+        message: 'Updated version tag for ${{ inputs.deployment_name }} in the helm chart'
         push: true

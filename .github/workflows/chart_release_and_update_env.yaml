@@ -33,7 +33,7 @@ jobs:
   pr_update_environment_chart:
     name: (PR) Update feature environment
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'pull_request' && startsWith(github.event.pull_request.head.ref, 'feature/')
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
