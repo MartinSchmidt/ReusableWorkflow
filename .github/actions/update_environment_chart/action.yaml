@@ -35,6 +35,7 @@ runs:
         workflow: Update helm chart version
         token: ${{ inputs.env_token }}
         repo: ${{ inputs.env_repository}}
+        ref: main
         inputs: |
           { 
             "name": "${{ inputs.release_name }}", 
